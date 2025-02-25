@@ -2,24 +2,6 @@ import sympy as ap
 import numpy as np
 import matplotlib.pyplot as plt
 
-class Force:
-
-    def __init__(self, r:tuple, F:tuple):
-        # two three component vectors: 
-        #   one for the #D position of the vector, 
-        #   one for the magnitude and direction of the force
-        self.r = np.array(r)
-        self.F = np.array(F)
-
-    def get_torque(self):
-        d = self.r + ((np.dot(self.r, self.F) / np.dot(self.F, self.F)) * self.F)
-            # finds the lever arm by which the force is applied to create the torque
-
-        T = np.cross(d, self.F)
-            # cross products the lever arm with the force
-
-        return T
-
 class Car:
 
     def __init__(self):
@@ -40,6 +22,10 @@ class Car:
         for f in F:
             self.forces.append(f)
         # adds forces to the car
+
+    def __iter__(self):
+        dict = {"x": self.x, "v": self.v, "a": self.a, "theta": self.theta, "omega": self.omega, "alpha": self.alpha}
+        return iter(dict.items())
 
     def update(self):
         self.t += self.dt
@@ -63,3 +49,21 @@ class Car:
             # angular position is the sum of all angular velocities
 
         self.forces = []
+
+
+if __name__ == "__main__":
+    car = Car()
+    # car.apply_forces([Force(r=(0, 0, 0), F=(0, 0, 0))])
+    # car.apply_forces([Force(r=(0, 0, 0), F=(0, 0, 0))])
+    # car.apply_forces([Force(r=(0, 0, 0), F=(0, 0, 0))])
+
+    # for _ in range(1000):
+    #     car.update()
+
+    # for k, v in car:
+    #     print(k, v)
+
+    # plt.plot(car.x[0], car.x[1])
+    # plt.show()
+
+    print(dict(car))
