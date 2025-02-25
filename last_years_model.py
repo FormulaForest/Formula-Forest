@@ -47,23 +47,23 @@ def calculation (mass, MuRotational, CdA):
 MuRotational=0.01
 print(calculation(0.08, MuRotational, 0.19*0.002))
 
-# for mass in np.arange(0.02, 0.1, 0.003):
-#     print(mass*1000)
-#     for CdA in np.arange(0.01, 0.018, 0.0005):
-#         Time.append(5-calculation(mass, MuRotational, CdA))
-#         Mass.append(mass)
-#         CdAt.append(CdA)
+for mass in np.arange(0.02, 0.1, 0.003):
+    print(mass*1000)
+    for CdA in np.arange(0.01, 0.018, 0.0005):
+        Time.append(5-calculation(mass, MuRotational, CdA))
+        Mass.append(mass)
+        CdAt.append(CdA)
 
 
-# fig = plt.figure()
-# ax = fig.add_subplot(projection='3d')
-# ax.scatter(Mass, CdAt, Time)
+fig = plt.figure()
+ax = fig.add_subplot(projection='3d')
+ax.scatter(Mass, CdAt, Time)
 
-# ax.set_xlabel('Mass')
-# ax.set_ylabel('CdA')
-# ax.set_zlabel('Time')
+ax.set_xlabel('Mass')
+ax.set_ylabel('CdA')
+ax.set_zlabel('Time')
 
-# plt.show()
+plt.show()
 
 
 A=[]
