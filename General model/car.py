@@ -24,7 +24,7 @@ class Car:
         # adds forces to the car
 
     def __iter__(self):
-        dict = {"x": self.x, "v": self.v, "a": self.a, "theta": self.theta, "omega": self.omega, "alpha": self.alpha}
+        dict = {"t": self.t, "x": self.x, "v": self.v, "a": self.a, "theta": self.theta, "omega": self.omega, "alpha": self.alpha}
         return iter(dict.items())
 
     def update(self):
