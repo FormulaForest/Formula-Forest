@@ -9,7 +9,7 @@ class Car:
         self.v = np.zeros(3)
         self.a = np.zeros(3)
         # sets pos, vel, acc
-        self.theta = np.zeros(3)
+        self.r = np.mat([[1], [0], [0]])
         self.omega = np.zeros(3)
         self.alpha = np.zeros(3)
         # sets angular pos, vel, acc
@@ -24,7 +24,7 @@ class Car:
         # adds forces to the car
 
     def __iter__(self):
-        dict = {"t": self.t, "x": self.x, "v": self.v, "a": self.a, "theta": self.theta, "omega": self.omega, "alpha": self.alpha}
+        dict = {"t": self.t, "x": self.x, "v": self.v, "a": self.a, "r": self.r, "omega": self.omega, "alpha": self.alpha}
         return iter(dict.items())
 
     def update(self):
@@ -45,7 +45,15 @@ class Car:
 
         self.omega += self.alpha * self.dt
             # angular velocity is the sum of all angular accelerations
-        self.theta += self.omega * self.dt
+        
+        Sigma = np.mat([[0, -self.omega[2], self.omega[1]],
+            [self.omega[2], 0, -self.omega[0]],
+            [-self.omega[1], self.omega[0], 0]])
+        R = np.identity(3) + Sigma * self.dt
+        self.r = R * self.r
+            # directional vector is rotated using the matrix R
+        
+        #self.theta += self.omega * self.dt
             # angular position is the sum of all angular velocities
 
         self.forces = []
