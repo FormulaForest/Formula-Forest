@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 class Car:
 
-    def __init__(self):
+    def __init__(self, dt = 1e-4, m = 0.05):
         self.x = np.zeros(3)
         self.v = np.zeros(3)
         self.a = np.zeros(3)
@@ -14,9 +14,17 @@ class Car:
         self.alpha = np.zeros(3)
         # sets angular pos, vel, acc
         self.t = 0
-        self.dt = 1e-4
-        self.m = 0.05
+        self.dt = dt
+        self.m = m
         self.forces = []
+
+        self.t_list = [self.t]
+        self.x_list = [self.x]
+        self.v_list = [self.v]
+        self.a_list = [self.a]
+        self.r_list = [self.r]
+        self.omega_list = [self.omega]
+        self.alpha_list = [self.alpha]
 
     def apply_forces(self, F:tuple):
         for f in F:
@@ -28,6 +36,10 @@ class Car:
         return iter(dict.items())
 
     def update(self):
+
+        self.t_list.append(self.t)
+        
+
         self.t += self.dt
 
         for f in self.forces:
@@ -57,6 +69,14 @@ class Car:
             # angular position is the sum of all angular velocities
 
         self.forces = []
+
+        self.t_list.append(self.t)
+        self.x_list.append(self.x)
+        self.v_list.append(self.v)
+        self.a_list.append(self.a)
+        self.r_list.append(self.r)
+        self.omega_list.append(self.omega)
+        self.alpha_list.append(self.alpha)
 
 
 if __name__ == "__main__":
