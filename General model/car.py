@@ -5,13 +5,13 @@ import matplotlib.pyplot as plt
 class Car:
 
     def __init__(self, dt = 1e-4, m = 0.05):
-        self.x = np.zeros(3)
-        self.v = np.zeros(3)
-        self.a = np.zeros(3)
+        self.x = [0, 0, 0]
+        self.v = [0, 0, 0]
+        self.a = [0, 0, 0]
         # sets pos, vel, acc
         self.r = np.mat([[1], [0], [0]])
-        self.omega = np.zeros(3)
-        self.alpha = np.zeros(3)
+        self.omega = [0, 0, 0]
+        self.alpha = [0, 0, 0]
         # sets angular pos, vel, acc
         self.t = 0
         self.dt = dt
@@ -31,14 +31,13 @@ class Car:
             self.forces.append(f)
         # adds forces to the car
 
+    def give_weight(self, ):
+
     def __iter__(self):
         dict = {"t": self.t, "x": self.x, "v": self.v, "a": self.a, "r": self.r, "omega": self.omega, "alpha": self.alpha}
         return iter(dict.items())
 
     def update(self):
-
-        self.t_list.append(self.t)
-        
 
         self.t += self.dt
 
@@ -68,15 +67,17 @@ class Car:
         #self.theta += self.omega * self.dt
             # angular position is the sum of all angular velocities
 
-        self.forces = []
-
         self.t_list.append(self.t)
-        self.x_list.append(self.x)
-        self.v_list.append(self.v)
-        self.a_list.append(self.a)
-        self.r_list.append(self.r)
-        self.omega_list.append(self.omega)
-        self.alpha_list.append(self.alpha)
+        self.x_list.append(self.x.copy())
+        self.v_list.append(self.v.copy())
+        self.a_list.append(self.a.copy())
+        self.r_list.append(self.r.copy())
+        self.omega_list.append(self.omega.copy())
+        self.alpha_list.append(self.alpha.copy())
+
+        self.forces = []
+        self.a = [0, 0, 0]
+        self.alpha = [0, 0, 0]
 
 
 if __name__ == "__main__":

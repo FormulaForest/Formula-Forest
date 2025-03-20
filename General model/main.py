@@ -1,18 +1,18 @@
-from force import Force
+# from force import Force
 from car import Car
-from wheel import Wheel
+# from wheel import Wheel
 from F_propulsion import Propulsion
 from matplotlib import pyplot as plt
 
 if __name__ == "__main__":
     car = Car()
     propulsion = Propulsion(r'.\Propulsion theory\F_prop.csv', 0.001, 1)
-
-    S_list = []
-    t_list = []
-    t = 0
+    print(car.x, car.x_list[0])
     
-    while 
+    while car.x[0] < 20:
+        car.apply_forces([propulsion.get_force(dict(car), car.t)])
+        car.update()
+        # print(car.x_list[-1])
 
     # for i in range(int(1/0.001)):
     #     time = i/1000
@@ -22,9 +22,11 @@ if __name__ == "__main__":
     #     x.append(dict(car)["x"][0])
     #     t.append(time)
 
-
-
-    plt.scatter(t, x)
+    print(car.t)
+    car.x = [-1, 0, 0]
+    # print(car.x_list[-1])
+    x = [cord[0] for cord in car.x_list]
+    plt.scatter(car.t_list, x)
     plt.xlabel('Time (s)')
     plt.ylabel('Position (m)')
     plt.title('Position of the Car Over Time')
