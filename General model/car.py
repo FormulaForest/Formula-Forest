@@ -1,83 +1,125 @@
 import sympy as ap
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.spatial.transform import Rotation as R
 
 class Car:
 
-    def __init__(self, dt = 1e-4, m = 0.05):
-        self.x = [0, 0, 0]
-        self.v = [0, 0, 0]
-        self.a = [0, 0, 0]
-        # sets pos, vel, acc
-        self.r = np.mat([[1], [0], [0]])
-        self.omega = [0, 0, 0]
-        self.alpha = [0, 0, 0]
-        # sets angular pos, vel, acc
+    def __init__(self, I:np.array, dt = 1e-4, m = 0.05):
+        self.x = np.array([0.0, 0.0, 0.0])
+        self.v = np.array([0.0, 0.0, 0.0])
+        self.a = np.array([0.0, 0.0, 0.0])
+        
+        self.q = np.array([1.0, 0.0, 0.0, 0.0])
+        self.omega = np.array([0.0, 0.0, 0.0])
+        self.alpha = np.array([0.0, 0.0, 0.0])
+
+        self.I = I
+        self.I_inv = np.linalg.inv(I)
+        
         self.t = 0
         self.dt = dt
         self.m = m
         self.forces = []
 
         self.t_list = [self.t]
-        self.x_list = [self.x]
-        self.v_list = [self.v]
-        self.a_list = [self.a]
-        self.r_list = [self.r]
-        self.omega_list = [self.omega]
-        self.alpha_list = [self.alpha]
+        self.x_list = [self.x.copy()]
+        self.v_list = [self.v.copy()]
+        self.a_list = [self.a.copy()]
+        self.q_list = [self.q.copy()]
+        self.omega_list = [self.omega.copy()]
+        self.alpha_list = [self.alpha.copy()]
 
     def apply_forces(self, F:tuple):
         for f in F:
             self.forces.append(f)
-        # adds forces to the car
 
-    def give_weight(self, ):
+    # def give_weight(self, ):
 
-    def __iter__(self):
-        dict = {"t": self.t, "x": self.x, "v": self.v, "a": self.a, "r": self.r, "omega": self.omega, "alpha": self.alpha}
-        return iter(dict.items())
+    def quaternion_derivative(self, q, omega):
+        """
+        Computes the quaternion derivative given angular velocity omega.
+        """
+        w, x, y, z = q
+        omega_x, omega_y, omega_z = omega
+
+        # Quaternion form of angular velocity
+        # omega_q = np.array([0, omega_x, omega_y, omega_z])
+
+        # Compute q_dot = 0.5 * q * omega_q
+        q_dot = 0.5 * np.array([
+            -x * omega_x - y * omega_y - z * omega_z,
+             w * omega_x + y * omega_z - z * omega_y,
+             w * omega_y + z * omega_x - x * omega_z,
+             w * omega_z + x * omega_y - y * omega_x
+        ])
+
+        return q_dot
 
     def update(self):
 
         self.t += self.dt
 
+        # Apply forces to update linear acceleration
         for f in self.forces:
             self.a += f.F / self.m
-                # acceleration is the sum of all forces divided by mass
 
+        # Update linear velocity and position
         self.v += self.a * self.dt
-            # linear motion
         self.x += self.v * self.dt
-            # angular motion
 
+        # Apply torques to update angular acceleration
         for f in self.forces:
-            self.alpha += f.get_torque() / self.m
-                # angular acceleration is the sum of all torques divided by mass
+            self.alpha += self.I_inv * f.get_torque()
 
+        # Update angular velocity
         self.omega += self.alpha * self.dt
-            # angular velocity is the sum of all angular accelerations
-        
-        Sigma = np.mat([[0, -self.omega[2], self.omega[1]],
-            [self.omega[2], 0, -self.omega[0]],
-            [-self.omega[1], self.omega[0], 0]])
-        R = np.identity(3) + Sigma * self.dt
-        self.r = R * self.r
-            # directional vector is rotated using the matrix R
-        
-        #self.theta += self.omega * self.dt
-            # angular position is the sum of all angular velocities
 
+            # Old directional vector update
+        # Sigma = np.mat([[0, -self.omega[2], self.omega[1]],
+        #     [self.omega[2], 0, -self.omega[0]],
+        #     [-self.omega[1], self.omega[0], 0]])
+        # R = np.identity(3) + Sigma * self.dt
+        # self.r = R * self.r
+
+        # Update quaternion (orientation)
+        q_dot = self.quaternion_derivative(self.q, self.omega)
+        self.q += q_dot * self.dt
+
+        # Normalize quaternion to prevent drift
+        self.q /= np.linalg.norm(self.q)
+
+        # Store history
         self.t_list.append(self.t)
         self.x_list.append(self.x.copy())
         self.v_list.append(self.v.copy())
         self.a_list.append(self.a.copy())
-        self.r_list.append(self.r.copy())
+        self.q_list.append(self.q.copy())
         self.omega_list.append(self.omega.copy())
         self.alpha_list.append(self.alpha.copy())
 
+        # Reset forces
         self.forces = []
-        self.a = [0, 0, 0]
-        self.alpha = [0, 0, 0]
+        self.a = np.array([0.0, 0.0, 0.0])
+        self.alpha = np.array([0.0, 0.0, 0.0])
+
+    def get_rotation_matrix(self):
+        """
+        Converts the current quaternion to a rotation matrix.
+        """
+        r = R.from_quat(self.q[1:])  # SciPy takes [x, y, z, w] order
+        return r.as_matrix()
+
+    def rotate_vector(self, v):
+        """
+        Rotates a vector using the current quaternion.
+        """
+        return self.get_rotation_matrix() @ v
+
+
+    def __iter__(self):
+        dict = {"t": self.t, "x": self.x, "v": self.v, "a": self.a, "q": self.q, "omega": self.omega, "alpha": self.alpha}
+        return iter(dict.items())
 
 
 if __name__ == "__main__":
