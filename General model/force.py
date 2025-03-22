@@ -9,6 +9,12 @@ class Force:
         self.r = np.array(r)
         self.F = np.array(F)
 
+    def rotate_vector(self, v):
+        """
+        Rotates a vector using the current quaternion.
+        """
+        return self.get_rotation_matrix() @ v
+
     def get_torque(self):
         d = self.r + ((np.dot(self.r, self.F) / np.dot(self.F, self.F)) * self.F)
             # finds the lever arm by which the force is applied to create the torque
