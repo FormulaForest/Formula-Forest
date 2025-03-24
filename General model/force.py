@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.spatial.transform import Rotation as R
 
 class Force:
 
@@ -9,11 +10,14 @@ class Force:
         self.r = np.array(r)
         self.F = np.array(F)
 
-    def rotate_vector(self, v):
+    def convert_coords(self, S:dict):
         """
         Rotates a vector using the current quaternion.
         """
-        return self.get_rotation_matrix() @ v
+        q = S['q']
+
+        self.r = R.from_quat(q).as_matrix() @ self.r
+        self.F = R.from_quat(q).as_matrix() @ self.F
 
     def get_torque(self):
         d = self.r + ((np.dot(self.r, self.F) / np.dot(self.F, self.F)) * self.F)

@@ -18,9 +18,10 @@ class Propulsion():
             force_value = 0
         else:
             force_value = np.interp(t, self.df['T'], self.df['F'])  # Linearly interpolate force
-        F = tuple(F * S['r'])
-        r = 
-        return Force(r=(0, self.y_r, self.z_r), F=(force_value, 0, 0))
+        
+        force = Force(r=(0, self.y_r, self.z_r), F=(force_value, 0, 0))
+        force.convert_coords(S)
+        return force
         
     # def interpolate(self):
     #     # Set time as index

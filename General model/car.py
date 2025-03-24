@@ -1,7 +1,6 @@
 import sympy as ap
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.spatial.transform import Rotation as R
 
 class Car:
 
@@ -70,7 +69,9 @@ class Car:
 
         # Apply torques to update angular acceleration
         for f in self.forces:
-            self.alpha += self.I_inv * f.get_torque()
+            print(self.I_inv @ f.get_torque())
+            print(self.alpha)
+            self.alpha += self.I_inv @ f.get_torque()
 
         # Update angular velocity
         self.omega += self.alpha * self.dt
@@ -88,7 +89,7 @@ class Car:
 
         # Normalize quaternion to prevent drift
         self.q /= np.linalg.norm(self.q)
-
+        
         # Store history
         self.t_list.append(self.t)
         self.x_list.append(self.x.copy())
@@ -102,19 +103,6 @@ class Car:
         self.forces = []
         self.a = np.array([0.0, 0.0, 0.0])
         self.alpha = np.array([0.0, 0.0, 0.0])
-
-    def get_rotation_matrix(self):
-        """
-        Converts the current quaternion to a rotation matrix.
-        """
-        r = R.from_quat(self.q[1:])  # SciPy takes [x, y, z, w] order
-        return r.as_matrix()
-
-    def rotate_vector(self, v):
-        """
-        Rotates a vector using the current quaternion.
-        """
-        return self.get_rotation_matrix() @ v
 
 
     def __iter__(self):
