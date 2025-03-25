@@ -21,7 +21,7 @@ class Force:
 
     def get_torque(self):
 
-        if self.F == np.zeros(3):
+        if np.array_equal(self.F, np.zeros(3)):
             return np.zeros(3)
 
         d = self.r + ((np.dot(self.r, self.F) / np.dot(self.F, self.F)) * self.F)
