@@ -20,6 +20,10 @@ class Force:
         self.F = R.from_quat(q).as_matrix() @ self.F
 
     def get_torque(self):
+
+        if self.F == np.zeros(3):
+            return np.zeros(3)
+
         d = self.r + ((np.dot(self.r, self.F) / np.dot(self.F, self.F)) * self.F)
             # finds the lever arm by which the force is applied to create the torque
 
