@@ -13,7 +13,7 @@ if __name__ == "__main__":
     I = I * 1e-9
 
     car = Car(I=I, dt=0.001, m=0.05)
-    propulsion = Propulsion(r'.\Propulsion theory\F_prop.csv')
+    propulsion = Propulsion(r'./Propulsion theory/F_prop.csv')
     
     i = 1
     while car.x[0] < 20:
