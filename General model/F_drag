@@ -1,0 +1,30 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+from force import Force
+
+class Drag():
+    def __init__(self, F1, F2, T1, T2, v1, v2):
+        np.set_printoptions(precision=10, suppress=False)
+
+        M = np.matrix([[v1**2, v1], [v2**2, v2]])
+        self.f_coeff = np.matrix([[0, 0], [0, 0], [0, 0]])
+        for i in range(3):
+            b = np.matrix([[F1[i]], [F2[i]]])
+            x = np.linalg.solve(M, b)
+            self.f_coeff[i, 0] = float(x[0])
+            self.f_coeff[i, 1] = float(x[1])
+            print(x[0], x[1])
+        print(repr(self.f_coeff))
+
+    def get_force(self, S:dict, t):
+        
+        force = Force(r=r, F=F)
+        force.convert_coords(S)
+        return force
+
+
+if __name__ == '__main__':
+    drag = Drag(F1=np.array([0.137,0.01,0.01]), F2=np.array([0.677, 0.03, 0.02]), T1=1, T2=1, v1=8, v2=18)
+    print(drag.f_coeff @ np.array([8**2, 8]))
