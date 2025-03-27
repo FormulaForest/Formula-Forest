@@ -17,8 +17,6 @@ if __name__ == "__main__":
     
     i = 1
     while car.x[0] < 20:
-        print("inter",i)
-        print(car.q.shape)
         car.apply_forces([propulsion.get_force(dict(car), car.t)])
         car.update()
         i += 1

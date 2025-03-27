@@ -69,12 +69,12 @@ class Car:
 
         # Apply torques to update angular acceleration
         for f in self.forces:
-            print(self.I_inv)
-            print(f.F)
-            print(f.get_torque())
-            print(self.I_inv @ f.get_torque().reshape(3, 1))
-            print(self.alpha)
-            self.alpha += self.I_inv @ f.get_torque()
+            # print(self.I_inv)
+            # print(f.F)
+            # print(f.get_torque())
+            # print(self.I_inv @ f.get_torque().reshape(3, 1))
+            # print(self.alpha)
+            self.alpha += self.I_inv @ f.T()
 
         # Update angular velocity
         self.omega += self.alpha * self.dt
