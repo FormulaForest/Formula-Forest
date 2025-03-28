@@ -3,28 +3,19 @@ import pandas as pd
 df1 = pd.read_csv(r'C:\Users\levta\OneDrive\Документы\WFS\F1\Formula-Forest\Propulsion theory\F_prop1.csv')
 df2 = pd.read_csv(r'C:\Users\levta\OneDrive\Документы\WFS\F1\Formula-Forest\Propulsion theory\F_prop2.csv')
 df3 = pd.read_csv(r'C:\Users\levta\OneDrive\Документы\WFS\F1\Formula-Forest\Propulsion theory\F_prop3.csv')
-
-# plt.plot(df1['T'], df1['F'], label='F_prop1')
-# plt.plot(df2['T'], df2['F'], label='F_prop2')
-# plt.plot(df3['T'], df3['F'], label='F_prop3')
+df_avg = pd.read_csv(r'C:\Users\levta\OneDrive\Документы\WFS\F1\Formula-Forest\Propulsion theory\F_avg.csv')
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Sample data
-# t = np.linspace(0, 0.5, 100)
-# T1 = np.exp(-5*t) * (10 + np.random.rand(100) * 0.5)
-# T2 = np.exp(-5*t) * (9 + np.random.rand(100) * 0.5)
-# T3 = np.exp(-5*t) * (10.5 + np.random.rand(100) * 0.5)
-# T4 = np.exp(-5*t) * (8 + np.random.rand(100) * 0.5)
-# AVG = (T1 + T2 + T3 + T4) / 4
+# Make a function that gives an option for controlled smoothening (scatter -> line plot)
+
 
 plt.figure(figsize=(8,5))
-# plt.plot(t, AVG, label='AVG', color='green', linewidth=2)
-plt.plot(df1['T'], df1['F'], color='gray', linewidth=1)
-plt.plot(df2['T'], df2['F'], color='black', linewidth=1)
-plt.plot(df3['T'], df3['F'], color='dimgray', linewidth=2)
-# plt.plot(t, T4, label='T4', color='lightgray', linewidth=1)
+plt.scatter(df1['T'], df1['F'], color='gray', s=1)
+plt.scatter(df2['T'], df2['F'], color='black', s=1)
+plt.scatter(df3['T'], df3['F'], color='dimgray', s=1)
+plt.plot(df_avg['T'], df_avg['F'], color='orange', linewidth=2) # right now the smoothening is automatic, but we need to control how much it smoothes
 
 plt.xlabel('TIME [S]', fontsize=14, fontweight='bold')
 plt.ylabel('CANISTER FORCE [N]', fontsize=14, fontweight='bold')
