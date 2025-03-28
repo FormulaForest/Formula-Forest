@@ -10,10 +10,11 @@ class Force:
         self.F = np.array(F)
 
         if r is None:
-            self.set_torque(T)
             self.r = np.zeros(3)
+            self.set_torque(T)
         else:
-            self.get_torque(r)
+            self.r = np.array(r)
+            self.get_torque()
 
     def convert_coords(self, S:dict):
         """
@@ -25,12 +26,13 @@ class Force:
         self.F = R.from_quat(q).as_matrix() @ self.F
         self.T = R.from_quat(q).as_matrix() @ self.T
 
-    def get_torque(self, r):
+    def get_torque(self):
 
         if np.array_equal(self.F, np.zeros(3)):
-            return np.zeros(3)
+            self.T = np.zeros(3)
+            return None
 
-        d = self.r + ((np.dot(r, self.F) / np.dot(self.F, self.F)) * self.F)
+        d = self.r + ((np.dot(self.r, self.F) / np.dot(self.F, self.F)) * self.F)
             # finds the lever arm by which the force is applied to create the torque
 
         T = np.cross(d, self.F)
