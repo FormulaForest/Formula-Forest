@@ -39,7 +39,7 @@ class Propulsion():
 
 if __name__ == '__main__':
     # test the interpolation
-    prop = Propulsion(r'.\Propulsion theory\F_prop.csv', 0.001, 1)
+    prop = Propulsion(r'./Propulsion theory/F_prop.csv', 0.001, 1)
     print(prop.df)
     prop.get_force({'x': 0, 'v': 0, 'a': 0, 'r': 0, 'omega': 0, 'alpha': 0}, 0.0035)
     t = np.linspace(0, 0.7, 1000)
