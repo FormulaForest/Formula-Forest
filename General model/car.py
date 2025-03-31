@@ -13,6 +13,8 @@ class Car:
         self.omega = np.array([0.0, 0.0, 0.0])
         self.alpha = np.array([0.0, 0.0, 0.0])
 
+        self.N = m * 9.81
+
         self.I = I
         self.I_inv = np.linalg.inv(I)
         
@@ -28,6 +30,7 @@ class Car:
         self.q_list = [self.q.copy()]
         self.omega_list = [self.omega.copy()]
         self.alpha_list = [self.alpha.copy()]
+        self.N_list = [self.N]
 
     def apply_forces(self, F:tuple):
         for f in F:
@@ -63,27 +66,19 @@ class Car:
         for f in self.forces:
             self.a += f.F / self.m
 
+        self.N = max(self.m * (9.81 - self.a[2]), 0)  # Normal force
+        self.a[2] = max(self.a[2]-9.81, 0)  # Ensure no negative vertical acceleration
+
         # Update linear velocity and position
         self.v += self.a * self.dt
         self.x += self.v * self.dt
 
         # Apply torques to update angular acceleration
         for f in self.forces:
-            # print(self.I_inv)
-            # print(f.F)
-            # print(f.get_torque())
-            # print(self.I_inv @ f.get_torque().reshape(3, 1))
             self.alpha += self.I_inv @ f.T
 
         # Update angular velocity
         self.omega += self.alpha * self.dt
-
-            # Old directional vector update
-        # Sigma = np.mat([[0, -self.omega[2], self.omega[1]],
-        #     [self.omega[2], 0, -self.omega[0]],
-        #     [-self.omega[1], self.omega[0], 0]])
-        # R = np.identity(3) + Sigma * self.dt
-        # self.r = R * self.r
 
         # Update quaternion (orientation)
         q_dot = self.quaternion_derivative(self.q, self.omega)
@@ -100,6 +95,7 @@ class Car:
         self.q_list.append(self.q.copy())
         self.omega_list.append(self.omega.copy())
         self.alpha_list.append(self.alpha.copy())
+        self.N_list.append(self.N)
 
         # Reset forces
         self.forces = []
@@ -108,23 +104,10 @@ class Car:
 
 
     def __iter__(self):
-        dict = {"t": self.t, "x": self.x, "v": self.v, "a": self.a, "q": self.q, "omega": self.omega, "alpha": self.alpha}
+        dict = {"t": self.t, "x": self.x, "v": self.v, "a": self.a, "q": self.q, "omega": self.omega, "alpha": self.alpha, "N": self.N}
         return iter(dict.items())
 
 
 if __name__ == "__main__":
     car = Car()
-    # car.apply_forces([Force(r=(0, 0, 0), F=(0, 0, 0))])
-    # car.apply_forces([Force(r=(0, 0, 0), F=(0, 0, 0))])
-    # car.apply_forces([Force(r=(0, 0, 0), F=(0, 0, 0))])
-
-    # for _ in range(1000):
-    #     car.update()
-
-    # for k, v in car:
-    #     print(k, v)
-
-    # plt.plot(car.x[0], car.x[1])
-    # plt.show()
-
     print(dict(car))

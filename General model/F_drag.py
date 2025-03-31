@@ -9,7 +9,7 @@ class Drag():
         '''Does the approximation and sets up the coefficients for the drag force'''
         np.set_printoptions(precision=10, suppress=False)
 
-        M = np.array([[v1**2, v1], [v2**2, v2]])
+        M = np.array([[v1**3, v1**2], [v2**3, v2**2]])
         self.f_coeff = np.zeros((3, 2))
         self.t_coeff = np.zeros((3, 2))
 
@@ -22,14 +22,16 @@ class Drag():
             x = np.linalg.solve(M, b)
             self.t_coeff[i, :] = x.flatten()
 
+        print(self.f_coeff)
+
     def get_force(self, S: dict, t):
         '''Returns the drag force at time t'''
         v = S['v'][0]
-        F = self.f_coeff @ np.array([v**2, v])
-        T = self.t_coeff @ np.array([v**2, v])
+        F = self.f_coeff @ np.array([v**3, v**2])
+        T = self.t_coeff @ np.array([v**3, v**2])
 
-        print("Computed force:\n", F)
-        print("Computed torque:\n", T)
+        # print("Computed force:\n", F)
+        # print("Computed torque:\n", T)
 
         force = Force(T=T, F=F)
         force.convert_coords(S)
