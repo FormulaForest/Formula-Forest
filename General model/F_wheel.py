@@ -15,10 +15,11 @@ class Wheel():
         self.F_list = []
 
     def get_force(self, S: dict, t):
-        '''Returns the drag force at time t'''
+        '''TODO: account for the fact that the wheel is not always in contact with the ground'''
 
         if  self.omega * self.r >= S['v'][0]:
-            F = np.array([-1 * S['a'][0] * self.I / (self.r ** 2), 0, 0])
+            F = np.array([max(-1 * S['a'][0] * self.I / (self.r ** 2), -1 * self.mu * S['N']), 0, 0]) # messed up coordinates
+            self.omega = S['v'][0] / self.r
         else:
             F = F = np.array([-1 * self.mu * S['N'], 0, 0])
             self.update(F[0])
