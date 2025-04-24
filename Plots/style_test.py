@@ -1,10 +1,19 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
-# load custom style (by name, if installed in stylelib)
-plt.style.use('dark.mplstyle')
 
+#-------------------
+STYLE_FILE = 'dark.mplstyle' # ENTER THE NAME OF THE STYLE FILE HERE ('dark.mplstyle', 'light.mplstyle', or custom)
+#-------------------
+
+
+# Set the style for the plot using a custom style file
+file_dir = os.path.dirname(__file__)
+plt.style.use(os.path.join(file_dir, STYLE_FILE))
+
+# Load the data
 speeds = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])
 drag_forces = np.array([
     -0.0009890971559062, -0.004040593830704, -0.009307135851632, 
