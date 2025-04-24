@@ -1,0 +1,56 @@
+# Figure
+figure.figsize       : 10, 6
+figure.facecolor     : black
+figure.dpi           : 100
+
+# Axes
+axes.facecolor       : black
+axes.edgecolor       : white
+axes.titlesize       : 17
+axes.titleweight     : bold
+axes.titlepad        : 10
+axes.labelsize       : 15
+axes.labelweight     : bold
+axes.labelcolor      : white
+axes.grid            : True
+axes.grid.which      : both
+axes.grid.axis       : both
+
+# Grid
+grid.color           : white
+grid.linestyle       : --
+grid.alpha           : 0.6
+
+# Lines & Markers
+lines.linewidth      : 3
+lines.marker         : o
+lines.markersize     : 6
+
+# Colors
+axes.prop_cycle      : cycler('color', ['#ed5b2a'])
+text.color           : white
+
+# Ticks
+xtick.color          : white
+ytick.color          : white
+xtick.direction      : in
+ytick.direction      : in
+
+# Spines
+axes.spines.top      : True
+axes.spines.right    : True
+axes.spines.left     : True
+axes.spines.bottom   : True
+# (spine colors follow axes.edgecolor)
+
+# Font
+font.family          : sans-serif
+font.sans-serif      : Arial
+
+# Legend
+legend.frameon       : False
+legend.fontsize      : 12
+legend.loc           : best
+legend.facecolor     : black
+legend.edgecolor     : white
+legend.labelcolor    : white
