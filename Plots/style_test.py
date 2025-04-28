@@ -13,6 +13,8 @@ STYLE_FILE = 'dark.mplstyle' # ENTER THE NAME OF THE STYLE FILE HERE ('dark.mpls
 file_dir = os.path.dirname(__file__)
 plt.style.use(os.path.join(file_dir, 'Styles/' + STYLE_FILE))
 
+print(plt.rcParams['axes.prop_cycle'])
+
 # Load the data
 speeds = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])
 drag_forces = np.array([
