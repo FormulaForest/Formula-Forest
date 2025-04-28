@@ -27,7 +27,7 @@ lines.marker         : o
 lines.markersize     : 6
 
 # Colors
-axes.prop_cycle      : cycler('color', ['#ed5b2a'])
+axes.prop_cycle      : cycler('color', ['#ed5b2a', 'black'])
 text.color           : white
 
 # Ticks
