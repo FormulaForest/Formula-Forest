@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
     def get_time(m):
         car = Car(I=I, dt=0.001, m=m/1000)
-        propulsion = Propulsion(r'./Propulsion theory/F_prop1.csv')
+        propulsion = Propulsion(r'../Propulsion theory/F_prop1.csv')
         drag = Drag(F1=np.array([-0.45788, 0, 0.10328]), 
                     F2=np.array([-1.6443, 0, 0.3873]), 
                     T1=np.array([0,0,0]), 
