@@ -6,6 +6,7 @@ from F_wheel import Wheel
 
 from matplotlib import pyplot as plt
 import numpy as np
+import os
 
 if __name__ == "__main__":
 
@@ -16,7 +17,11 @@ if __name__ == "__main__":
     I = I * 1e-9
 
     car = Car(I=I, dt=0.001, m=0.05)
+<<<<<<< HEAD
     propulsion = Propulsion(r'../Propulsion theory/F_prop1.csv')
+=======
+    propulsion = Propulsion(os.path.join(os.path.dirname(__file__), '../Propulsion theory/F_prop1.csv'))
+>>>>>>> 695cdccf204f8600160ed1339b1eb810c446397e
     drag = Drag(F1=np.array([-0.45788, 0, 0.10328]), 
                 F2=np.array([-1.6443, 0, 0.3873]), 
                 T1=np.array([0,0,0]), 
