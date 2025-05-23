@@ -236,7 +236,7 @@ class TunnelGUI:
 # --- Run GUI ---
 if __name__ == "__main__":
     root = tk.Tk()
-    sr = SerialReader("COM5", 9600)
+    sr = SerialReader("COM5", 9600) # change this to your COM port
     app = TunnelGUI(root, sr)
 
     app.update_values()
