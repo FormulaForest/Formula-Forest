@@ -20,11 +20,11 @@ class Force:
         """
         Rotates a vector using the current quaternion.
         """
-        q = S['q']
+        coords = S['coords']
 
-        self.r = R.from_quat(q).as_matrix() @ self.r
-        self.F = R.from_quat(q).as_matrix() @ self.F
-        self.T = R.from_quat(q).as_matrix() @ self.T
+        self.r = coords.T @ self.r
+        self.F = coords.T @ self.F
+        self.T = coords.T @ self.T
 
     def get_torque(self):
 

@@ -1,6 +1,7 @@
 import sympy as ap
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.spatial.transform import Rotation
 
 class Car:
 
@@ -9,7 +10,7 @@ class Car:
         self.v = np.array([0.0, 0.0, 0.0])
         self.a = np.array([0.0, 0.0, 0.0])
         
-        self.q = np.array([1.0, 0.0, 0.0, 0.0])
+        self.coords = np.eye(3)
         self.omega = np.array([0.0, 0.0, 0.0])
         self.alpha = np.array([0.0, 0.0, 0.0])
 
@@ -18,7 +19,7 @@ class Car:
         self.I = I
         self.I_inv = np.linalg.inv(I)
         
-        self.t = 0
+        self.t = 0 
         self.dt = dt
         self.m = m
         self.forces = []
@@ -27,7 +28,7 @@ class Car:
         self.x_list = [self.x.copy()]
         self.v_list = [self.v.copy()]
         self.a_list = [self.a.copy()]
-        self.q_list = [self.q.copy()]
+        self.coords_list = [self.coords.copy()]
         self.omega_list = [self.omega.copy()]
         self.alpha_list = [self.alpha.copy()]
         self.N_list = [self.N]
@@ -38,10 +39,14 @@ class Car:
 
     # def give_weight(self, ):
 
-    def quaternion_derivative(self, q, omega):
+    def rotate_coords(self):
         """
         Computes the quaternion derivative given angular velocity omega.
         """
+        rotation = Rotation.from_rotvec(self.omega * self.dt)
+        return rotation.apply(self.coords)
+
+
         w, x, y, z = q
         omega_x, omega_y, omega_z = omega
 
@@ -81,18 +86,17 @@ class Car:
         self.omega += self.alpha * self.dt
 
         # Update quaternion (orientation)
-        q_dot = self.quaternion_derivative(self.q, self.omega)
-        self.q += q_dot * self.dt
+        self.coords = self.rotate_coords()
 
-        # Normalize quaternion to prevent drift
-        self.q /= np.linalg.norm(self.q)
+        # # Normalize quaternion to prevent drift
+        # self.q /= np.linalg.norm(self.q)
         
         # Store history
         self.t_list.append(self.t)
         self.x_list.append(self.x.copy())
         self.v_list.append(self.v.copy())
         self.a_list.append(self.a.copy())
-        self.q_list.append(self.q.copy())
+        self.coords_list.append(self.coords.copy())
         self.omega_list.append(self.omega.copy())
         self.alpha_list.append(self.alpha.copy())
         self.N_list.append(self.N)
@@ -104,7 +108,7 @@ class Car:
 
 
     def __iter__(self):
-        dict = {"t": self.t, "x": self.x, "v": self.v, "a": self.a, "q": self.q, "omega": self.omega, "alpha": self.alpha, "N": self.N}
+        dict = {"t": self.t, "x": self.x, "v": self.v, "a": self.a, "coords": self.coords, "omega": self.omega, "alpha": self.alpha, "N": self.N}
         return iter(dict.items())
 
 
