@@ -18,16 +18,24 @@ if __name__ == "__main__":
 
     car = Car(I=I, dt=0.001, m=0.05)
     propulsion = Propulsion(os.path.join(os.path.dirname(__file__), '../Propulsion theory/F_prop1.csv'))
-    drag = Drag(F1=np.array([-0.45788, 0, 0.10328]), 
-                F2=np.array([-1.6443, 0, 0.3873]), 
-                T1=np.array([0,0,0]), 
-                T2=np.array([0,0,0]), v1=10, v2=20)
-    bearing = Bearing(mu=0.1)
-    wheel = Wheel(0.1, 0.015, 0.0001, 0.001)
+    #  drag = Drag(F1=np.array([-0.45788, 0, 0.10328]),  Fake
+    #                 F2=np.array([-1.6443, 0, 0.3873]), 
+    #                 T1=np.array([0,0,0]), 
+    #                 T2=np.array([0,0,0]), v1=10, v2=20)
+    # drag = Drag(F1=np.array([-0.050876, 0, 0.011476]),  Real CFD
+    #             F2=np.array([-0.182705, 0, 0.043031]), 
+    #             T1=np.array([0,0,0]), 
+    #             T2=np.array([0,0,0]), v1=10, v2=20)
+    drag = Drag(F1=np.array([-.0051, 0, 0]),  # Real tunnel
+                    F2=np.array([-.312, 0, 0]), 
+                    T1=np.array([0,0,0]), 
+                    T2=np.array([0,0,0]), v1=10, v2=22)
+    # bearing = Bearing(mu=0.1)
+    # wheel = Wheel(0.1, 0.015, 0.0001, 0.001)
     
     i = 1
     while car.x[0] < 20:
-        car.apply_forces([propulsion.get_force(dict(car), car.t), drag.get_force(dict(car), car.t), bearing.get_force(dict(car), car.t), wheel.get_force(dict(car), car.t)])
+        car.apply_forces([propulsion.get_force(dict(car), car.t), drag.get_force(dict(car), car.t)])#, bearing.get_force(dict(car), car.t), wheel.get_force(dict(car), car.t)])
         car.update()
         i += 1
 
