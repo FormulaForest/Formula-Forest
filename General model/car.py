@@ -113,5 +113,5 @@ class Car:
 
 
 if __name__ == "__main__":
-    car = Car()
+    car = Car(np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]]), dt=1e-4, m=0.05) #test
     print(dict(car))
