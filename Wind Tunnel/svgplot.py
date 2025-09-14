@@ -16,4 +16,4 @@ plt.axis('off')  # No axes
 plt.gca().set_aspect('equal')  # Keep proportions
 
 # Save as SVG
-plt.savefig(r"C:\Users\levta\Документы\WFS\Engineering\Wind Tunnel\curve1.svg", format="svg", bbox_inches='tight')
+plt.savefig(r"/Users/vincentleong/vscode/Formula-Forest/Wind Tunnel/curve1.svg", format="svg", bbox_inches='tight')

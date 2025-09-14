@@ -1,14 +1,14 @@
 import pandas as pd
 
-df1 = pd.read_csv(r'C:\Users\levta\OneDrive\Документы\WFS\F1\Formula-Forest\Propulsion theory\F_prop1.csv')
-df2 = pd.read_csv(r'C:\Users\levta\OneDrive\Документы\WFS\F1\Formula-Forest\Propulsion theory\F_prop2.csv')
-df3 = pd.read_csv(r'C:\Users\levta\OneDrive\Документы\WFS\F1\Formula-Forest\Propulsion theory\F_prop3.csv')
-df_avg = pd.read_csv(r'C:\Users\levta\OneDrive\Документы\WFS\F1\Formula-Forest\Propulsion theory\F_avg.csv')
+# df1 = pd.read_csv(r'C:\Users\levta\OneDrive\Документы\WFS\F1\Formula-Forest\Propulsion theory\F_prop1.csv')
+# df2 = pd.read_csv(r'C:\Users\levta\OneDrive\Документы\WFS\F1\Formula-Forest\Propulsion theory\F_prop2.csv')
+# df3 = pd.read_csv(r'C:\Users\levta\OneDrive\Документы\WFS\F1\Formula-Forest\Propulsion theory\F_prop3.csv')
+# df_avg = pd.read_csv(r'C:\Users\levta\OneDrive\Документы\WFS\F1\Formula-Forest\Propulsion theory\F_avg.csv')
 
-# df1 = pd.read_csv("Formula-Forest/Propulsion theory/F_prop1.csv")
-# df2 = pd.read_csv("Formula-Forest/Propulsion theory/F_prop2.csv")
-# df3 = pd.read_csv("Formula-Forest/Propulsion theory/F_prop3.csv")
-# df_avg = pd.read_csv("Formula-Forest/Propulsion theory/F_avg.csv")
+df1 = pd.read_csv("/Users/vincentleong/vscode/Formula-Forest/Propulsion theory/F_prop1.csv")
+df2 = pd.read_csv("/Users/vincentleong/vscode/Formula-Forest/Propulsion theory/F_prop2.csv")
+df3 = pd.read_csv("/Users/vincentleong/vscode/Formula-Forest/Propulsion theory/F_prop3.csv")
+df_avg = pd.read_csv("/Users/vincentleong/vscode/Formula-Forest/Propulsion theory/F_avg.csv")
 
 import matplotlib.pyplot as plt
 import numpy as np

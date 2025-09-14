@@ -8,6 +8,9 @@ MuRotational=0.01
 CdA=0.01
 """
 
+Time=[]
+Mass=[]
+CdAt=[]
 
 def Fapplied(time):
     if(time < 0.025):
