@@ -78,9 +78,9 @@ class SerialReader:
         self.port = port
         try:
             self.arduino = serial.Serial(port, baudrate=baudrate, timeout=timeout)
-            print(f"✅ Connected to {port} @ {baudrate}")
+            print(f"Connected to {port} @ {baudrate}")
         except Exception as e:
-            print(f"❌ Connection failed on {port}: {e}")
+            print(f"Connection failed on {port}: {e}")
             self.arduino = None
 
     def get_data(self):
